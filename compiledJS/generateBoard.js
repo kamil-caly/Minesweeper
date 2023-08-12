@@ -22,19 +22,19 @@ export function generateBoard(width, height, minesCount) {
                 if (currentEmptyField) {
                     let minesNumber = 0;
                     // up
-                    board.find(e => e.x === x && e.y === y - 1 && e.content === 'mine') && minesNumber++;
+                    board.find(e => e.x === x - 1 && e.y === y && e.content === 'mine') && minesNumber++;
                     // up-right
-                    board.find(e => e.x === x + 1 && e.y === y - 1 && e.content === 'mine') && minesNumber++;
+                    board.find(e => e.x === x - 1 && e.y === y + 1 && e.content === 'mine') && minesNumber++;
                     // right
-                    board.find(e => e.x === x + 1 && e.y === y && e.content === 'mine') && minesNumber++;
+                    board.find(e => e.x === x && e.y === y + 1 && e.content === 'mine') && minesNumber++;
                     // right-down
                     board.find(e => e.x === x + 1 && e.y === y + 1 && e.content === 'mine') && minesNumber++;
                     // down
-                    board.find(e => e.x === x && e.y === y + 1 && e.content === 'mine') && minesNumber++;
+                    board.find(e => e.x === x + 1 && e.y === y && e.content === 'mine') && minesNumber++;
                     // left-down
-                    board.find(e => e.x === x - 1 && e.y === y + 1 && e.content === 'mine') && minesNumber++;
+                    board.find(e => e.x === x + 1 && e.y === y - 1 && e.content === 'mine') && minesNumber++;
                     // left
-                    board.find(e => e.x === x - 1 && e.y === y && e.content === 'mine') && minesNumber++;
+                    board.find(e => e.x === x && e.y === y - 1 && e.content === 'mine') && minesNumber++;
                     // up-left
                     board.find(e => e.x === x - 1 && e.y === y - 1 && e.content === 'mine') && minesNumber++;
                     minesNumber > 0 && (board[board.indexOf(currentEmptyField)] = Object.assign(Object.assign({}, currentEmptyField), { content: minesNumber }));

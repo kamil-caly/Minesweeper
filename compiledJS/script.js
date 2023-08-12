@@ -14,7 +14,7 @@ const boardHTML = document.getElementsByClassName("board")[0];
 const minesCounter = document.getElementsByClassName("minesCounter")[0];
 const boardWidth = getComputedStyle(document.documentElement).getPropertyValue('--board-width');
 const boardHeight = getComputedStyle(document.documentElement).getPropertyValue('--board-height');
-const minesCount = 10;
+const minesCount = 3;
 const generatedBoard = generateBoard(Number(boardWidth), Number(boardHeight), minesCount);
 const enableTimer = () => {
     const incrementTimer = () => {
@@ -46,7 +46,7 @@ const rightClick = (event) => {
 };
 const leftClick = (event) => {
     const clickedElement = document.getElementById(event.target['id']);
-    if (clickedElement.classList.contains('flagField') || clickedElement.classList.length > 1)
+    if (!clickedElement || clickedElement.classList.contains('flagField') || clickedElement.classList.length > 1)
         return;
     const [x, y] = clickedElement.id.split('-');
     const [posX, posY] = [Number(x), Number(y)];
@@ -65,36 +65,88 @@ const leftClick = (event) => {
     }
     else {
         revealField(clickedElement, posX, posY);
+        checkWin();
     }
 };
 // recursive function
 const revealField = (clickedElement, posX, posY) => {
-    if (!clickedElement)
+    if (!clickedElement || clickedElement.classList.length > 1)
         return;
     const genBoardCurrentElem = generatedBoard.find(el => el.x === posX && el.y == posY);
     if ((genBoardCurrentElem === null || genBoardCurrentElem === void 0 ? void 0 : genBoardCurrentElem.content) !== '') {
         clickedElement.classList.add('visibleField');
         clickedElement.textContent = genBoardCurrentElem.content;
+        clickedElement.style.color = getNumberColor(genBoardCurrentElem.content);
         return;
     }
     else {
         clickedElement.classList.add('visibleField');
     }
     Object.values(directions).forEach(dir => {
-        console.log('dir: ', dir);
         switch (dir) {
             case directions.UP:
+                revealField(document.getElementById((posX - 1) + '-' + posY), posX - 1, posY);
+                break;
+            case directions.RIGHT_UP:
+                revealField(document.getElementById((posX - 1) + '-' + (posY + 1)), posX - 1, posY + 1);
+                break;
+            case directions.RIGHT:
+                revealField(document.getElementById(posX + '-' + (posY + 1)), posX, posY + 1);
+                break;
+            case directions.RIGHT_DOWN:
+                revealField(document.getElementById((posX + 1) + '-' + (posY + 1)), posX + 1, posY + 1);
+                break;
+            case directions.DOWN:
+                revealField(document.getElementById((posX + 1) + '-' + posY), posX + 1, posY);
+                break;
+            case directions.LEFT_DOWN:
+                revealField(document.getElementById((posX + 1) + '-' + (posY - 1)), posX + 1, posY - 1);
+                break;
+            case directions.LEFT:
                 revealField(document.getElementById(posX + '-' + (posY - 1)), posX, posY - 1);
-                console.log("elem: ", document.getElementById(posX + '-' + (posY - 1)));
+                break;
+            case directions.LEFT_UP:
+                revealField(document.getElementById((posX - 1) + '-' + (posY - 1)), posX - 1, posY - 1);
                 break;
             default:
                 break;
         }
     });
 };
+const getNumberColor = (content) => {
+    switch (content) {
+        case 1:
+            return '#187ecf';
+        case 2:
+            return '#368c3c';
+        case 3:
+            return '#d43534';
+        case 4:
+            return '#7b1fa2';
+        case 5:
+            return '#ff8e00';
+        case 6:
+            return '#b52dee';
+        case 7:
+            return '#f28600';
+        case 8:
+            return '#581302';
+        default:
+            return 'black';
+    }
+};
 const gameOver = () => {
     alert(`Game Over!`);
     location.reload();
+};
+const checkWin = () => {
+    const revealField = document.getElementsByClassName("visibleField").length;
+    if (revealField + minesCount === Number(boardWidth) * Number(boardHeight)) {
+        setTimeout(() => {
+            alert(`You Win!!! Your time is: ${+timerCounter.textContent}s`);
+            location.reload();
+        }, 50);
+    }
 };
 const setHTMLBoard = (genBoard) => {
     genBoard.forEach(el => {

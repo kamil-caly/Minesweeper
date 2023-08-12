@@ -53,8 +53,8 @@ const rightClick = (event: MouseEvent): void => {
 }
 
 const leftClick = (event: MouseEvent): void => {
-    const clickedElement: HTMLElement = document.getElementById(event.target['id']);
-    if(clickedElement.classList.contains('flagField') || clickedElement.classList.length > 1)
+    const clickedElement: HTMLElement | null = document.getElementById(event.target['id']);
+    if(!clickedElement || clickedElement.classList.contains('flagField') || clickedElement.classList.length > 1)
         return;
 
     const [x, y]: string[] = clickedElement.id.split('-');
@@ -74,39 +74,93 @@ const leftClick = (event: MouseEvent): void => {
         setTimeout(gameOver, 50);
     } else {
         revealField(clickedElement, posX, posY);
+        checkWin();
     }
 }
 
 // recursive function
-const revealField = (clickedElement: HTMLElement, posX: number, posY: number): void => {
-    if(!clickedElement)
+const revealField = (clickedElement: HTMLElement | null, posX: number, posY: number): void => {
+    if(!clickedElement || clickedElement.classList.length > 1)
         return;
 
     const genBoardCurrentElem = generatedBoard.find(el => el.x === posX && el.y == posY);
     if(genBoardCurrentElem?.content !== '') {
         clickedElement.classList.add('visibleField');
         clickedElement.textContent = genBoardCurrentElem.content as string;
+        clickedElement.style.color = getNumberColor(genBoardCurrentElem.content as number);
         return;
     } else {
         clickedElement.classList.add('visibleField');
     }
 
     Object.values(directions).forEach(dir => {
-        console.log('dir: ', dir);
         switch (dir) {
             case directions.UP:
-                    revealField(document.getElementById(posX + '-' + (posY - 1)), posX, posY - 1);
-                    console.log("elem: ", document.getElementById(posX + '-' + (posY - 1)))
+                revealField(document.getElementById((posX - 1) + '-' + posY), posX - 1, posY);
+                break;
+            case directions.RIGHT_UP:
+                revealField(document.getElementById((posX - 1) + '-' + (posY + 1)), posX - 1, posY + 1);
+                break;
+            case directions.RIGHT:
+                revealField(document.getElementById(posX + '-' + (posY + 1)), posX, posY + 1);
+                break;
+            case directions.RIGHT_DOWN:
+                revealField(document.getElementById((posX + 1) + '-' + (posY + 1)), posX + 1, posY + 1);
+                break;
+            case directions.DOWN:
+                revealField(document.getElementById((posX + 1) + '-' + posY), posX + 1, posY);
+                break;
+            case directions.LEFT_DOWN:
+                revealField(document.getElementById((posX + 1) + '-' + (posY - 1)), posX + 1, posY - 1);
+                break;
+            case directions.LEFT:
+                revealField(document.getElementById(posX + '-' + (posY - 1)), posX, posY - 1);
+                break;
+            case directions.LEFT_UP:
+                revealField(document.getElementById((posX - 1) + '-' + (posY - 1)), posX - 1, posY - 1);
                 break;
             default:
                 break;
         }
-    });
+    });    
+}
+
+const getNumberColor = (content: number): string => {
+    switch (content){
+        case 1:
+            return '#187ecf';
+        case 2: 
+            return '#368c3c';
+        case 3:
+            return '#d43534';
+        case 4:
+            return '#7b1fa2';
+        case 5:
+            return '#ff8e00';
+        case 6: 
+            return '#b52dee';
+        case 7:
+            return '#f28600';
+        case 8: 
+            return '#581302';
+        default:
+            return 'black';
+    }
 }
 
 const gameOver = () => {
     alert(`Game Over!`);
     location.reload();
+}
+
+const checkWin = () => {
+    const revealField: number = document.getElementsByClassName("visibleField").length;
+    if(revealField + minesCount === Number(boardWidth) * Number(boardHeight)) {
+        setTimeout(() => {
+            alert(`You Win!!! Your time is: ${+timerCounter.textContent}s`);
+            location.reload();
+        }, 50);
+    }
 }
 
 const setHTMLBoard = (genBoard: boardContent[]): void => {
