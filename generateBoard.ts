@@ -4,7 +4,7 @@ export type boardContent = {
     content: string | number;
 }
 
-export function generateBoard(width: number, height: number, minesCount: number): void {
+export function generateBoard(width: number, height: number, minesCount: number): boardContent[] {
     let board: boardContent[] = [];
 
     for(let x = 0; x < width; x++) {
@@ -25,7 +25,38 @@ export function generateBoard(width: number, height: number, minesCount: number)
         }
     }
 
+    const generateMinesNumbers = () => {
+        for(let x = 0; x < width; x++) {
+            for(let y = 0; y < height; y++) {
+                const currentEmptyField = board.find(e => e.x === x && e.y === y && e.content === '');
+                if(currentEmptyField) {
+                    let minesNumber: number = 0;
+                    // up
+                    board.find(e => e.x === x && e.y === y - 1 && e.content === 'mine') && minesNumber++;
+                    // up-right
+                    board.find(e => e.x === x + 1 && e.y === y - 1 && e.content === 'mine') && minesNumber++
+                    // right
+                    board.find(e => e.x === x + 1 && e.y === y && e.content === 'mine') && minesNumber++;
+                    // right-down
+                    board.find(e => e.x === x + 1 && e.y === y + 1 && e.content === 'mine') && minesNumber++;
+                    // down
+                    board.find(e => e.x === x && e.y === y + 1 && e.content === 'mine') && minesNumber++;
+                    // left-down
+                    board.find(e => e.x === x - 1 && e.y === y + 1 && e.content === 'mine') && minesNumber++;
+                    // left
+                    board.find(e => e.x === x - 1 && e.y === y && e.content === 'mine') && minesNumber++;
+                    // up-left
+                    board.find(e => e.x === x - 1 && e.y === y - 1 && e.content === 'mine') && minesNumber++;
+
+                    minesNumber > 0 && (board[board.indexOf(currentEmptyField)] = {...currentEmptyField, content: minesNumber});
+                }
+            }
+        }
+    }
+
     generateMines();
+    generateMinesNumbers();
 
     console.log("board: ", board);
+    return board;
 }

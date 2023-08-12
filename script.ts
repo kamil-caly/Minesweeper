@@ -1,6 +1,7 @@
-import { generateBoard } from "./generateBoard.js";
+import { boardContent, generateBoard } from "./generateBoard.js";
 
 const timerCounter = document.getElementsByClassName("timerCounter")[0];
+const boardHTML = document.getElementsByClassName("board")[0];
 
 const boardWidth = getComputedStyle(document.documentElement).getPropertyValue('--board-width');
 const boardHeight = getComputedStyle(document.documentElement).getPropertyValue('--board-height');
@@ -21,8 +22,18 @@ const enableTimer = (): void => {
     setInterval(incrementTimer, 1000);
 }
 
+const setHTMLBoard = (genBoard: boardContent[]): void => {
+    genBoard.forEach(el => {
+        const field = document.createElement('div');
+        field.id = el.x + "-" + el.y;
+        field.classList.add('field');
+        boardHTML.appendChild(field);
+    });
+}
+
 const main = () => {
-    generateBoard(Number(boardWidth), Number(boardHeight), minesCount);
+    const generatedBoard = generateBoard(Number(boardWidth), Number(boardHeight), minesCount);
+    setHTMLBoard(generatedBoard);
     enableTimer();
 }
 
