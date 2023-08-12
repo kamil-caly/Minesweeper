@@ -9,12 +9,13 @@ const directions = {
     LEFT: "left",
     LEFT_UP: "leftUp"
 };
+const minesCount = 40;
 const timerCounter = document.getElementsByClassName("timerCounter")[0];
 const boardHTML = document.getElementsByClassName("board")[0];
 const minesCounter = document.getElementsByClassName("minesCounter")[0];
+minesCounter.textContent = minesCount.toString();
 const boardWidth = getComputedStyle(document.documentElement).getPropertyValue('--board-width');
 const boardHeight = getComputedStyle(document.documentElement).getPropertyValue('--board-height');
-const minesCount = 3;
 const generatedBoard = generateBoard(Number(boardWidth), Number(boardHeight), minesCount);
 const enableTimer = () => {
     const incrementTimer = () => {

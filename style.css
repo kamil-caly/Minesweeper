@@ -1,6 +1,6 @@
 :root {
-    --board-width: 9;
-    --board-height: 9;
+    --board-width: 16;
+    --board-height: 16;
 }
 
 body {
@@ -15,8 +15,8 @@ body {
 }
 
 .board {
-    width: 800px;
-    height: 800px;
+    min-width: 800px;
+    min-height: 800px;
     background-color: white;
     display: grid;
     gap: 5px;
@@ -27,7 +27,7 @@ body {
 
 .hideField {
     background-color: #99bb5a;
-    font-size: 40px;
+    font-size: 35px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -49,7 +49,7 @@ body {
 
 .header {
     display: flex;
-    width: 800px;
+    min-width: 800px;
     justify-content: space-evenly;
     padding: 20px 0;
     background-color: #4a752c;
