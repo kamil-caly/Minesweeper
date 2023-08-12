@@ -1,0 +1,82 @@
+:root {
+    --board-width: 9;
+    --board-height: 9;
+}
+
+body {
+    background-color: lightgray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.board {
+    width: 800px;
+    height: 800px;
+    background-color: white;
+    display: grid;
+    gap: 5px;
+    grid-template-columns: repeat(var(--board-width), 1fr);
+    grid-template-rows: repeat(var(--board-width), 1fr);
+    background-color: #af977e;
+}
+
+.field {
+    background-color: #e5c29f;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.flagField {
+    background-image: url("https://static.wikia.nocookie.net/google-snake-game/images/3/30/Trophy_12.png");
+    background-size: cover;
+}
+
+.mineField {
+    background-color: red;
+}
+
+.header {
+    display: flex;
+    width: 800px;
+    justify-content: space-evenly;
+    padding: 20px 0;
+    background-color: #4a752c;
+    color: white;
+    font-size: 30px;
+}
+
+.header .flag {
+    height: 40px;
+}
+
+.mines .minesCounter {
+    margin-top: 5px;
+}
+
+.mines {
+    display: flex;
+    width: 80px;
+    justify-content: space-between;
+}
+
+.time .timer {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.time .timerCounter {
+    margin-top: 3px;
+}
+
+.time {
+    display: flex;
+    width: 100px;
+}
