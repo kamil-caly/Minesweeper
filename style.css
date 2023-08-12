@@ -25,13 +25,17 @@ body {
     background-color: #af977e;
 }
 
-.field {
-    background-color: #e5c29f;
+.hideField {
+    background-color: #99bb5a;
     font-size: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+}
+
+.visibleField {
+    background-color: #d7b899 !important;
 }
 
 .flagField {
