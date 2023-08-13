@@ -1,7 +1,3 @@
-Oto prosta dokumentacja dla Twojego projektu:
-
----
-
 # Minesweeper TypeScript Game
 
 This project is a simple implementation of the classic Minesweeper game using TypeScript. Players uncover tiles to reveal either mines or numbers, with numbers indicating the count of adjacent mines. The goal is to uncover all tiles without detonating a mine.
