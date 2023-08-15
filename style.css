@@ -27,7 +27,7 @@ body {
 
 .hideField {
     background-color: #99bb5a;
-    font-size: 35px;
+    font-size: calc(55vh / var(--board-height)); 
     display: flex;
     justify-content: center;
     align-items: center;

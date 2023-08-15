@@ -39,11 +39,10 @@ const rightClick = (event) => {
         clickedElement.classList.remove('flagField');
         minesCounter.textContent = (Number(minesCounter.textContent) + 1).toString();
     }
-    else if (Number(minesCounter.textContent) > 0) {
+    else if (Number(minesCounter.textContent) > 0 && !clickedElement.classList.contains('visibleField')) {
         clickedElement.classList.add('flagField');
         minesCounter.textContent = (Number(minesCounter.textContent) - 1).toString();
     }
-    console.log(clickedElement);
 };
 const leftClick = (event) => {
     const clickedElement = document.getElementById(event.target['id']);
